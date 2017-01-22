@@ -1,0 +1,24 @@
+html{
+	background:rgba(165, 212, 253, 0.45);
+}
+body{
+	margin:0px;
+	font-family: 'open_sansregular';
+}
+.header{
+	padding:10px;
+}
+.header-title{
+	font-size:1.5em;
+	font-weight:bold;
+	padding-right:50px;
+}
+.credentials{
+	padding:5px;
+}
+.loading-bar{
+	
+}
+md-progress-linear .md-container{
+	height:38px !important;
+}

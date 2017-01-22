@@ -1,0 +1,6 @@
+server: 
+  session:
+    timeout: 3600 #1-hour session timeout 
+endpoints:
+  shutdown:
+    enabled: true
