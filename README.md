@@ -9,6 +9,6 @@ The Reddit API is accessed using the JRAW java library (The Java Reddit API Wrap
 
 If you'd like to quickly use the webapp, download reddit-composer.zip. Extract both files to any folder. If you're running on Windows, run the batch file included. This will start the Spring Boot app and automatically launch your browser to the web app's main page. 
 
-Alternatively, you can can just run the source as a Java/Spring Boot application within your IDE of choice. 
+Alternatively, you can can just run RedditComposerApplication.java as a Java/Spring Boot application within your IDE of choice. 
 
 ![alt tag](https://raw.githubusercontent.com/williamwilliamwilliam/reddit-composer/master/messenger.gif)
