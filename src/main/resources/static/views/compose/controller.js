@@ -1,11 +1,8 @@
 app.controller('ComposeController', function($scope, $http, $mdDialog, $q, composerService) {
-	$scope.outboxStatusMessage = composerService.outboxStatusMessage;
-	
 	$scope.headerHeight = 156;
 	$scope.innerWidth = window.innerWidth;
 	$scope.innerHeight = window.innerHeight;
 	$scope.data = composerService.data;
-	
 	
 	WebSocketClient.handleConnect = function(){
 		WebSocketClient.subscribe($scope.username);
@@ -14,14 +11,13 @@ app.controller('ComposeController', function($scope, $http, $mdDialog, $q, compo
 	WebSocketClient.handleMessage = function(subscription, object) {
 		composerService.handleWebSocketMessage($scope, object);
 		$scope.$apply();
-	}
+	};
 	
 	$scope.initializeUsername = function(){
-		$http.get("/username")
-	    .then(function(response) {
-	    	$scope.username = response.data.username;
-			WebSocketClient.connect();
-	    });
+		$http.get("/username").then(function(response) {
+				$scope.username = response.data.username;
+				WebSocketClient.connect();
+		});
 	};
 	$scope.initializeUsername();
 	
@@ -32,31 +28,29 @@ app.controller('ComposeController', function($scope, $http, $mdDialog, $q, compo
 			message = message+". This means you've probably entered in bad credentials.";
 		}
 		$mdDialog.show(
-			      $mdDialog.alert()
-			        .parent(angular.element(document.querySelector('#popupContainer')))
-			        .clickOutsideToClose(true)
-			        .title('Uh oh!')
-			        .textContent(message)
-			        .ariaLabel('Error box')
-			        .ok('Got it!')
-			        .targetEvent(event)
-			    );
+			$mdDialog.alert()
+				.parent(angular.element(document.querySelector('#popupContainer')))
+				.clickOutsideToClose(true)
+				.title('Uh oh!')
+				.textContent(message)
+				.ariaLabel('Error box')
+				.ok('Got it!')
+				.targetEvent(event)
+		);
 	};
 	
 	$scope.successDialog = function(event, message){
 		$mdDialog.show(
-			      $mdDialog.alert()
-			        .parent(angular.element(document.querySelector('#popupContainer')))
-			        .clickOutsideToClose(true)
-			        .title('Looks good!')
-			        .textContent(message)
-			        .ariaLabel('Error box')
-			        .ok('Got it!')
-			        .targetEvent(event)
-			    );
+				$mdDialog.alert()
+					.parent(angular.element(document.querySelector('#popupContainer')))
+					.clickOutsideToClose(true)
+					.title('Looks Good!')
+					.textContent(message)
+					.ariaLabel('Success box')
+					.ok('Got it!')
+					.targetEvent(event)
+			);
 	};
-	
-	
 
 	$scope.testCredentials = function(event) {
 		composerService.data.testingCredentials = true;
@@ -95,9 +89,7 @@ app.controller('ComposeController', function($scope, $http, $mdDialog, $q, compo
 			$scope.errorDialog(event, response.data.message);
 			composerService.data.testingCredentials = false;
 		});
-	}
-	
-	$scope.asyncPOST
+	};
 
 	$scope.processOutbox = function(ev) {
 		composerService.data.outboxStatusMessage = "Request submitted...";
@@ -124,7 +116,7 @@ app.controller('ComposeController', function($scope, $http, $mdDialog, $q, compo
 			
 		}
 		composerService.buildOutboxMessages().then(sendOutboxToBackend);
-	}
+	};
 	
 	composerService.data.batchMessageSpreadsheet;
 	
@@ -143,7 +135,7 @@ app.controller('ComposeController', function($scope, $http, $mdDialog, $q, compo
 		    	reject();
 		    });
 		  });
-	}
+	};
 	
 	$scope.initializeHandsOnTable = function(){
 		composerService.initializeHandsOnTable($scope);

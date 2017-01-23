@@ -1,6 +1,4 @@
 app.service('composerService', function($q) {
-	console.log("initializing ComposerService");
-	
 	this.data = {
 			credentials:{
 				
@@ -32,14 +30,15 @@ app.service('composerService', function($q) {
 		for(var k in to) newObject[k]=to[k];
 		for(var k in from) newObject[k]=from[k];
 		return newObject;
-	}
+	};
 	
 	this.buildOutboxMessages = function(){
 		var data = this.data;
 		var copyProperties = this.copyProperties;
 		
 		return $q(function(resolve, reject) {
-			setTimeout(function(){
+			//long-running operation on main thread. setTimeout to give buttons time to animate. TODO: web worker
+			setTimeout(function(){ 
 				var outbox = copyProperties(data.credentials, {});
 				outbox.messages = [];
 				
@@ -69,55 +68,44 @@ app.service('composerService', function($q) {
 		}
 		
 		if(this.data.existingOutboxData){
-    		for(var i = 0; i < this.data.existingOutboxData.length; i++){
-    			this.data.spreadsheetData[i].message = this.data.existingOutboxData[i].message;
-    			this.data.spreadsheetData[i].subject = this.data.existingOutboxData[i].subject;
-    			this.data.spreadsheetData[i].to = this.data.existingOutboxData[i].to;
-    			this.data.spreadsheetData[i].status = this.data.existingOutboxData[i].status;
-    		}
-    	}
+			for(var i = 0; i < this.data.existingOutboxData.length; i++){
+				this.data.spreadsheetData[i].message = this.data.existingOutboxData[i].message;
+				this.data.spreadsheetData[i].subject = this.data.existingOutboxData[i].subject;
+				this.data.spreadsheetData[i].to = this.data.existingOutboxData[i].to;
+				this.data.spreadsheetData[i].status = this.data.existingOutboxData[i].status;
+			}
+		}
+		
+		var hotSettings = {
+			data : this.data.spreadsheetData,
+			columns : [ {
+				data : 'to',
+				type : 'text',
+				width : 40
+			}, {
+				data : 'subject',
+				type : 'text',
+				width : 40
+			}, {
+				data : 'message',
+				type : 'text',
+				width : 500
+			}, {
+				data : 'status',
+				type : 'text',
+				readOnly : true,
+				width : 40
+			} ],
+			stretchH : 'all',
+			width : '100%',
+			autoWrapRow : true,
+			height : window.innerHeight - this.data.headerHeight - 55,
+			maxRows : 500,
+			rowHeaders : true,
+			colHeaders : [ 'To', 'Subject', 'Message', 'Status' ]
+		};
 		
 		var hotElement = document.querySelector('#batchMessageSheet');
-		  var hotElementContainer = hotElement.parentNode;
-		  var hotSettings = {
-		    data: this.data.spreadsheetData,
-		    columns: [
-		        {
-		            data: 'to',
-		            type: 'text',
-		            width: 40
-		        },
-		        {
-		            data: 'subject',
-		            type:'text',
-		            width: 40
-		        },
-		        {
-		            data: 'message',
-		            type: 'text',
-		            width: 500
-		        },
-		        {
-		            data: 'status',
-		            type: 'text',
-		            readOnly: true,
-		            width: 40
-		        }
-		    ],
-		    stretchH: 'all',
-		    width: '100%',
-		    autoWrapRow: true,
-		    height: window.innerHeight - this.data.headerHeight-55,
-		    maxRows: 500,
-		    rowHeaders: true,
-		    colHeaders: [
-		        'To',
-		        'Subject',
-		        'Message',
-		        'Status'
-		    ]
-		};
-
 		this.data.batchMessageSpreadsheet = new Handsontable(hotElement, hotSettings);
 	}
 });

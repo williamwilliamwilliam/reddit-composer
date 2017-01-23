@@ -1,13 +1,9 @@
 <div style="height:40px;padding-top:5px;" layout="row" >
-			
 	<div flex="100" class="loading-bar"  style="padding-left:10px;padding-top:5px;display:inline-block;">
 		<md-progress-linear ng-show="sendingMessages"  md-mode="determinate" value="{{data.outboxProgress}}"></md-progress-linear>
 	</div>
 	<div >
 		<md-button ng-disabled="sendingMessages" class="md-raised md-primary" ng-click="processOutbox($event);"><i class="fa fa-send-o" style="font-size:1.35em;margin-right:5px;margin-left:5px;font-weight:bold;" aria-hidden="true"></i> Send All Messages</md-button>
 	</div>
- 	
-	<!-- <div style="display:inline-block;padding-top:15px;">Add <input type="text" style="width:50px;" ng-model="rowsToAdd" /> rows to sheet <input type="button" value="Add" ng-click="addRowsToSpreadsheet(rowsToAdd);" /></div> -->
-	
 </div>
 <div ng-show="sendingMessages"  style="position:absolute; left:15px; bottom:9px;">{{data.outboxStatusMessage}}</div>
